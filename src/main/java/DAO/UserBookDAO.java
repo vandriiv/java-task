@@ -30,8 +30,8 @@ public class UserBookDAO implements IUserBookDAO {
         try (
              PreparedStatement preparedStatement = connection.prepareStatement(CREATE_USERBOOK)){
 
-            preparedStatement.setLong(1,userBook.getUser().getId());
-            preparedStatement.setLong(2,userBook.getBook().getId());
+            preparedStatement.setLong(1,userBook.getUserId());
+            preparedStatement.setLong(2,userBook.getBookId());
             preparedStatement.setInt(3,userBook.getCount());
 
             preparedStatement.executeUpdate();
@@ -49,8 +49,8 @@ public class UserBookDAO implements IUserBookDAO {
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USERBOOK)){
 
             preparedStatement.setInt(1,userBook.getCount());
-            preparedStatement.setLong(2,userBook.getUser().getId());
-            preparedStatement.setLong(3,userBook.getBook().getId());
+            preparedStatement.setLong(2,userBook.getUserId());
+            preparedStatement.setLong(3,userBook.getBookId());
 
             preparedStatement.execute();
 

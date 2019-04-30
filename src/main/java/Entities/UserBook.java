@@ -4,6 +4,35 @@ public class UserBook {
 
     private long id;
 
+    private long userId;
+
+    public UserBook(long id, long userId, long bookId, User user, Book book, int count) {
+        this.id = id;
+        this.userId = userId;
+        this.bookId = bookId;
+        this.user = user;
+        this.book = book;
+        this.count = count;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(long bookId) {
+        this.bookId = bookId;
+    }
+
+    private long bookId;
+
     private User user;
 
     private Book book;

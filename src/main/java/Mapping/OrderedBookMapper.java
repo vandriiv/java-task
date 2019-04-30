@@ -14,8 +14,8 @@ public class OrderedBookMapper {
 
         for(OrderedBookViewModel orderItem : orderedBooks){
            UserBook ub = new UserBook();
-           ub.getUser().setId(userId);
-           ub.getBook().setId(orderItem.getBookId());
+           ub.setUserId(userId);
+           ub.setBookId(orderItem.getBookId());
            ub.setCount(orderItem.getCount());
            userBookList.add(ub);
         }

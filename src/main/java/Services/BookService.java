@@ -211,4 +211,24 @@ public class BookService implements IBookService {
             throw new ServiceDBException(ex);
         }
     }
+
+    @Override
+    public void addBook(Book book) throws ServiceDBException {
+        try {
+            bookDAO.create(book);
+        }
+        catch (DAOException ex){
+            throw new ServiceDBException(ex);
+        }
+    }
+
+    @Override
+    public void updateBook(Book book) throws ServiceDBException {
+        try {
+            bookDAO.update(book);
+        }
+        catch (DAOException ex){
+            throw new ServiceDBException(ex);
+        }
+    }
 }

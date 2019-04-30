@@ -5,7 +5,7 @@ import Entities.Author;
 import Exceptions.ServiceDBException;
 import Services.BookService;
 import Services.Interfaces.IBookService;
-import Validation.AuthorsValidator;
+import Validation.AuthorValidator;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ public class UpdateAuthorCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        AuthorsValidator authorsValidator = new AuthorsValidator();
+        AuthorValidator authorsValidator = new AuthorValidator();
 
         Gson jsonFormatter = new Gson();
 

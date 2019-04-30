@@ -6,6 +6,10 @@ public class Book {
 
     private String title;
 
+    private long authorId;
+
+    private long genreId;
+
     private Author author;
 
     private Genre genre;
@@ -16,9 +20,12 @@ public class Book {
 
     private int availableCount;
 
-    public Book(long id, String title, Author author, Genre genre, int year, int totalCount, int availableCount) {
+    public Book(long id, String title, long authorId,
+                long genreId, Author author, Genre genre, int year, int totalCount, int availableCount) {
         this.id = id;
         this.title = title;
+        this.authorId = authorId;
+        this.genreId = genreId;
         this.author = author;
         this.genre = genre;
         this.year = year;
@@ -84,5 +91,21 @@ public class Book {
 
     public void setAvailableCount(int availableCount) {
         this.availableCount = availableCount;
+    }
+
+    public long getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
+    }
+
+    public long getGenreId() {
+        return genreId;
+    }
+
+    public void setGenreId(long genreId) {
+        this.genreId = genreId;
     }
 }

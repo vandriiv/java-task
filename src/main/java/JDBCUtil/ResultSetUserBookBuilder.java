@@ -28,6 +28,8 @@ public class ResultSetUserBookBuilder {
 
         userBook.setId(resultSet.getLong(UserBookColumns.ID));
         userBook.setCount(resultSet.getInt(UserBookColumns.COUNT));
+        userBook.setUserId(resultSet.getLong(UserBookColumns.USER_ID));
+        userBook.setBookId(resultSet.getLong(UserBookColumns.BOOK_ID));
 
         return userBook;
     }

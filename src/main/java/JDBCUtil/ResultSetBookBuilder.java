@@ -33,6 +33,8 @@ public class ResultSetBookBuilder {
         book.setTotalCount(resultSet.getInt(BookColumns.TOTAL_COUNT));
         book.setTitle(resultSet.getString(BookColumns.TITLE));
         book.setYear(resultSet.getInt(BookColumns.YEAR));
+        book.setAuthorId(resultSet.getLong(BookColumns.AUTHOR_ID));
+        book.setGenreId(resultSet.getLong(BookColumns.GENRE_ID));
         book.setAuthor(author);
         book.setGenre(genre);
 

@@ -33,7 +33,7 @@ public class OrderManager implements IOrderManager {
             connection.setAutoCommit(false);
             for (UserBook data : ordersList) {
 
-                UserBook record = userBookDAO.getUserBook(data.getUser().getId(),data.getBook().getId(),connection);
+                UserBook record = userBookDAO.getUserBook(data.getUserId(),data.getBookId(),connection);
                 int count = data.getCount();
                 if(record==null){
                     userBookDAO.create(data, connection);
@@ -42,8 +42,8 @@ public class OrderManager implements IOrderManager {
                     userBookDAO.updateBookCount(data,connection);
                 }
 
-                bookDAO.reduceAvailableCount(data.getBook().getId(), count, connection);
-                Book book = bookDAO.findById(data.getBook().getId(), connection);
+                bookDAO.reduceAvailableCount(data.getBookId(), count, connection);
+                Book book = bookDAO.findById(data.getBookId(), connection);
 
                 if (book.getAvailableCount() < 0) {
                     connection.rollback();

@@ -217,10 +217,10 @@ public class BookDAO implements IBookDAO {
 
             preparedStatement.setString(1,book.getTitle());
             preparedStatement.setInt(2,book.getYear());
-            preparedStatement.setLong(3,book.getAuthor().getId());
+            preparedStatement.setLong(3,book.getAuthorId());
             preparedStatement.setInt(4,book.getTotalCount());
             preparedStatement.setInt(5,book.getAvailableCount());
-            preparedStatement.setLong(6,book.getGenre().getId());
+            preparedStatement.setLong(6,book.getGenreId());
 
             preparedStatement.execute();
 
@@ -237,10 +237,10 @@ public class BookDAO implements IBookDAO {
 
             preparedStatement.setString(1,book.getTitle());
             preparedStatement.setInt(2,book.getYear());
-            preparedStatement.setLong(3,book.getAuthor().getId());
+            preparedStatement.setLong(3,book.getAuthorId());
             preparedStatement.setInt(4,book.getTotalCount());
             preparedStatement.setInt(5,book.getAvailableCount());
-            preparedStatement.setLong(6,book.getGenre().getId());
+            preparedStatement.setLong(6,book.getGenreId());
             preparedStatement.setLong(7,book.getId());
 
             preparedStatement.execute();

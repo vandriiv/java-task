@@ -1,11 +1,11 @@
 package Command;
 
 import Command.Interfaces.ICommand;
-import Entities.Author;
+import Entities.Book;
 import Exceptions.ServiceDBException;
 import Services.BookService;
 import Services.Interfaces.IBookService;
-import Validation.AuthorValidator;
+import Validation.BookValidator;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -14,27 +14,25 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class AddAuthorCommand implements ICommand {
-
+public class UpdateBookCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        AuthorValidator authorValidator = new AuthorValidator();
+        BookValidator bookValidator = new BookValidator();
 
         Gson jsonFormatter = new Gson();
 
         String body = request.getReader().lines()
                 .reduce("", (accumulator, actual) -> accumulator + actual);
 
-        Author author = jsonFormatter.fromJson(body,Author.class);
+        Book book = jsonFormatter.fromJson(body,Book.class);
         PrintWriter out = response.getWriter();
 
-        if(authorValidator.isValid(author)){
+        if(bookValidator.isValid(book)){
             IBookService bookService = BookService.getInstance();
             try{
-                bookService.addAuthor(author);
-                out.print(jsonFormatter.toJson("Successfully added"));
+                bookService.updateBook(book);
+                out.print(jsonFormatter.toJson("Successfully updated"));
             }
             catch (ServiceDBException ex){
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -45,6 +43,5 @@ public class AddAuthorCommand implements ICommand {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             out.print(jsonFormatter.toJson("Invalid data format!"));
         }
-
     }
 }

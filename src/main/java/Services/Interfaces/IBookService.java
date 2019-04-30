@@ -37,4 +37,8 @@ public interface IBookService {
 
     void updateAuthor(Author author) throws ServiceDBException;
 
+    void addBook(Book book) throws ServiceDBException;
+
+    void updateBook(Book book) throws ServiceDBException;
+
 }
