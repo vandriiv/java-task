@@ -1,7 +1,8 @@
 package Command;
 
+import AuthenticationUtil.JWTBasedAuthenticationManager;
 import Command.Interfaces.ICommand;
-import TokenUtil.JWTProvider;
+import TokenUtil.UserTokenModel;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -18,21 +19,17 @@ public class GetUserStatusCommand implements ICommand {
         PrintWriter out = response.getWriter();
         Gson jsonFormatter = new Gson();
         String header = request.getHeader("Authorization");
-        
-        if(!header.contains("Bearer ")){
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            out.print(jsonFormatter.toJson("User is not authorized"));
-        }
-        else {
-            String token = header.substring("Bearer ".length());
 
-            try {
-                String email = JWTProvider.getSubjectFromToken(token);
-                out.print(jsonFormatter.toJson(email));
-            } catch (Exception ex) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            }
+        JWTBasedAuthenticationManager authenticationManager = new JWTBasedAuthenticationManager();
+
+        UserTokenModel userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
+        if(userTokenModel==null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
+        else{
+            out.println(jsonFormatter.toJson(userTokenModel));
+        }
+
         out.flush();
     }
 }

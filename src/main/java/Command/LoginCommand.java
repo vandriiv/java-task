@@ -37,7 +37,7 @@ public class LoginCommand implements ICommand {
 
         try {
             User user =  userService.Login(email,password);
-            UserTokenModel tokenModel = new UserTokenModel(user.getRole().getId(),user.getEmail());
+            UserTokenModel tokenModel = new UserTokenModel(user.getRoleId(),user.getEmail());
             String tokenData = jsonFormatter.toJson(tokenModel);
             String token = JWTProvider.generateToken(tokenData);
             response.setHeader("Authorization", token);

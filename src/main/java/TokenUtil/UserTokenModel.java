@@ -10,6 +10,10 @@ public class UserTokenModel {
         this.email = email;
     }
 
+    public UserTokenModel() {
+
+    }
+
     public long getRoleId() {
         return roleId;
     }

@@ -12,16 +12,27 @@ public class User {
 
     private Role role;
 
-    public User(long id, String email, String password, String phoneNumber, Role role) {
+    private long roleId;
+
+    public User(long id, String email, String password, String phoneNumber, Role role, long roleId) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        this.roleId = roleId;
     }
 
     public User() {
 
+    }
+
+    public long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(long roleId) {
+        this.roleId = roleId;
     }
 
     public long getId() {

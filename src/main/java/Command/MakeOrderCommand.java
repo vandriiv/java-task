@@ -1,5 +1,6 @@
 package Command;
 
+import AuthenticationUtil.JWTBasedAuthenticationManager;
 import Command.Interfaces.ICommand;
 import Entities.User;
 import Entities.UserBook;
@@ -10,7 +11,6 @@ import Services.Interfaces.IOrderService;
 import Services.Interfaces.IUserService;
 import Services.OrderService;
 import Services.UserService;
-import TokenUtil.JWTProvider;
 import TokenUtil.UserTokenModel;
 import ViewModels.OrderedBookViewModel;
 import com.google.gson.Gson;
@@ -33,46 +33,51 @@ public class MakeOrderCommand implements ICommand {
         IUserService userService = UserService.getInstance();
         
         Gson jsonFormatter = new Gson();
-        
-        String body = request.getReader().lines()
-                .reduce("", (accumulator, actual) -> accumulator + actual);
-        List<OrderedBookViewModel> orderedBooks = new Gson()
-                .fromJson(body, new TypeToken<List<OrderedBookViewModel>>(){}.getType());
 
-        String token = JWTProvider.getSubjectFromToken(request.getHeader("Authorization")
-                .substring("Bearer ".length()));
+        String header = request.getHeader("Authorization");
 
-        UserTokenModel tokenUser = jsonFormatter.fromJson(token,UserTokenModel.class);
+        JWTBasedAuthenticationManager authenticationManager = new JWTBasedAuthenticationManager();
+
+        UserTokenModel userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
+
         PrintWriter out = response.getWriter();
+        if(userTokenModel!=null) {
 
-        User user = null;
-        try {
-            user = userService.getByEmail(tokenUser.getEmail());
-        } catch (ServiceDBException ex) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.print(jsonFormatter.toJson("DB error." + ex.getMessage()));
-        }
-
-        if(user!=null){
-            OrderedBookMapper mapper = new OrderedBookMapper();
-            List<UserBook> userBooks = mapper.MapToUserBookList(orderedBooks,user.getId());
+            User user = null;
             try {
-                orderService.makeOrder(userBooks);
-                out.print(jsonFormatter.toJson("Success"));
-            } catch (OrderedBookAvailabilityException e) {
-                response.setStatus(422);
-                out.print(jsonFormatter.toJson("Books available count has been updated. Please, check book availability"));
+                user = userService.getByEmail(userTokenModel.getEmail());
             } catch (ServiceDBException ex) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 out.print(jsonFormatter.toJson("DB error." + ex.getMessage()));
+                return;
+            }
+
+            if (user != null) {
+                String body = request.getReader().lines()
+                        .reduce("", (accumulator, actual) -> accumulator + actual);
+
+                List<OrderedBookViewModel> orderedBooks = new Gson()
+                        .fromJson(body, new TypeToken<List<OrderedBookViewModel>>(){}.getType());
+                OrderedBookMapper mapper = new OrderedBookMapper();
+                List<UserBook> userBooks = mapper.MapToUserBookList(orderedBooks, user.getId());
+                try {
+                    orderService.makeOrder(userBooks);
+                    out.print(jsonFormatter.toJson("Success"));
+                } catch (OrderedBookAvailabilityException e) {
+                    response.setStatus(422);
+                    out.print(jsonFormatter.toJson("Books available count has been updated. Please, check book availability"));
+                } catch (ServiceDBException ex) {
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    out.print(jsonFormatter.toJson("DB error." + ex.getMessage()));
+                }
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                out.print(jsonFormatter.toJson("User is not authorized"));
             }
         }
         else{
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             out.print(jsonFormatter.toJson("User is not authorized"));
         }
-
-
-
     }
 }

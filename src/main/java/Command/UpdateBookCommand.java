@@ -1,10 +1,13 @@
 package Command;
 
+import AuthenticationUtil.JWTBasedAuthenticationManager;
 import Command.Interfaces.ICommand;
 import Entities.Book;
 import Exceptions.ServiceDBException;
+import GlobalConstants.GlobalConstants;
 import Services.BookService;
 import Services.Interfaces.IBookService;
+import TokenUtil.UserTokenModel;
 import Validation.BookValidator;
 import com.google.gson.Gson;
 
@@ -18,30 +21,43 @@ public class UpdateBookCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        BookValidator bookValidator = new BookValidator();
+        JWTBasedAuthenticationManager authenticationManager = new JWTBasedAuthenticationManager();
+        String header = request.getHeader("Authorization");
+        UserTokenModel userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
 
-        Gson jsonFormatter = new Gson();
+        if (userTokenModel != null) {
 
-        String body = request.getReader().lines()
-                .reduce("", (accumulator, actual) -> accumulator + actual);
+            if (userTokenModel.getRoleId() == GlobalConstants.LIBRARIAN_ROLE_ID) {
+                BookValidator bookValidator = new BookValidator();
 
-        Book book = jsonFormatter.fromJson(body,Book.class);
-        PrintWriter out = response.getWriter();
+                Gson jsonFormatter = new Gson();
 
-        if(bookValidator.isValid(book)){
-            IBookService bookService = BookService.getInstance();
-            try{
-                bookService.updateBook(book);
-                out.print(jsonFormatter.toJson("Successfully updated"));
-            }
-            catch (ServiceDBException ex){
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.print(jsonFormatter.toJson("Server error, try to reload page"));
+                String body = request.getReader().lines()
+                        .reduce("", (accumulator, actual) -> accumulator + actual);
+
+                Book book = jsonFormatter.fromJson(body, Book.class);
+                PrintWriter out = response.getWriter();
+
+                if (bookValidator.isValid(book)) {
+                    IBookService bookService = BookService.getInstance();
+                    try {
+                        bookService.updateBook(book);
+                        out.print(jsonFormatter.toJson("Successfully updated"));
+                    } catch (ServiceDBException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        out.print(jsonFormatter.toJson("Server error, try to reload page"));
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    out.print(jsonFormatter.toJson("Invalid data format!"));
+                }
+            }else{
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             }
         }
-        else{
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            out.print(jsonFormatter.toJson("Invalid data format!"));
+        else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
+
     }
 }

@@ -1,10 +1,13 @@
 package Command;
 
+import AuthenticationUtil.JWTBasedAuthenticationManager;
 import Command.Interfaces.ICommand;
 import Entities.Author;
 import Exceptions.ServiceDBException;
+import GlobalConstants.GlobalConstants;
 import Services.BookService;
 import Services.Interfaces.IBookService;
+import TokenUtil.UserTokenModel;
 import Validation.AuthorValidator;
 import com.google.gson.Gson;
 
@@ -20,30 +23,44 @@ public class AddAuthorCommand implements ICommand {
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        AuthorValidator authorValidator = new AuthorValidator();
+        JWTBasedAuthenticationManager authenticationManager = new JWTBasedAuthenticationManager();
+        String header = request.getHeader("Authorization");
+        UserTokenModel userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
 
-        Gson jsonFormatter = new Gson();
+        if(userTokenModel!=null) {
 
-        String body = request.getReader().lines()
-                .reduce("", (accumulator, actual) -> accumulator + actual);
+            if(userTokenModel.getRoleId()==GlobalConstants.LIBRARIAN_ROLE_ID) {
 
-        Author author = jsonFormatter.fromJson(body,Author.class);
-        PrintWriter out = response.getWriter();
+                AuthorValidator authorValidator = new AuthorValidator();
 
-        if(authorValidator.isValid(author)){
-            IBookService bookService = BookService.getInstance();
-            try{
-                bookService.addAuthor(author);
-                out.print(jsonFormatter.toJson("Successfully added"));
+                Gson jsonFormatter = new Gson();
+
+                String body = request.getReader().lines()
+                        .reduce("", (accumulator, actual) -> accumulator + actual);
+
+                Author author = jsonFormatter.fromJson(body, Author.class);
+                PrintWriter out = response.getWriter();
+
+                if (authorValidator.isValid(author)) {
+                    IBookService bookService = BookService.getInstance();
+                    try {
+                        bookService.addAuthor(author);
+                        out.print(jsonFormatter.toJson("Successfully added"));
+                    } catch (ServiceDBException ex) {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        out.print(jsonFormatter.toJson("Server error, try to reload page"));
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    out.print(jsonFormatter.toJson("Invalid data format!"));
+                }
             }
-            catch (ServiceDBException ex){
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.print(jsonFormatter.toJson("Server error, try to reload page"));
+            else {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             }
         }
         else{
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            out.print(jsonFormatter.toJson("Invalid data format!"));
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
 
     }

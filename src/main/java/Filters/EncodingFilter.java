@@ -32,7 +32,8 @@ public class EncodingFilter implements Filter {
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
         response.addHeader("Access-Control-Max-Age", "1728000");
         response.addHeader("Access-Control-Expose-Headers","Origin, X-Requested-With, Content-Type, Accept, Authorization");
-        response.setHeader("Authorization", authHeader);
+        if(authHeader!=null && !authHeader.isEmpty())
+            response.setHeader("Authorization", authHeader);
     }
 
     @Override

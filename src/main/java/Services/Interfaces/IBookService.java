@@ -5,6 +5,7 @@ import Entities.Book;
 import Entities.Genre;
 import Exceptions.ServiceDBException;
 import ViewModels.BooksListViewModel;
+import ViewModels.UserBooksViewModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +18,7 @@ public interface IBookService {
 
     BooksListViewModel getBooksByGenreName(String genreName,int limit,int offset) throws ServiceDBException;
 
-    List<Book> getUsersBook(long userId) throws ServiceDBException;
+    UserBooksViewModel getUserBooks(String email) throws ServiceDBException;
 
     Book getBookById(long bookId) throws ServiceDBException;
 

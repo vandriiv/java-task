@@ -14,6 +14,7 @@ public class ResultSetUserBuilder {
         ResultSetRoleBuilder roleBuilder = new ResultSetRoleBuilder();
 
         user.setRole(roleBuilder.BuildRoleFromResultSet(resultSet));
+        user.setRoleId(resultSet.getLong(UserColumns.ROLE_ID));
         user.setId(resultSet.getLong(UserColumns.ID));
         user.setEmail(resultSet.getString(UserColumns.EMAIL));
         user.setPassword(resultSet.getString(UserColumns.PASSWORD));

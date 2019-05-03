@@ -6,13 +6,14 @@ import DAO.GenreDAO;
 import DAO.Interfaces.IAuthorDAO;
 import DAO.Interfaces.IBookDAO;
 import DAO.Interfaces.IGenreDAO;
-import Entities.Author;
-import Entities.Book;
-import Entities.Genre;
+import DAO.Interfaces.IUserBookDAO;
+import DAO.UserBookDAO;
+import Entities.*;
 import Exceptions.DAOException;
 import Exceptions.ServiceDBException;
 import Services.Interfaces.IBookService;
 import ViewModels.BooksListViewModel;
+import ViewModels.UserBooksViewModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,12 +26,15 @@ public class BookService implements IBookService {
 
     private final IGenreDAO genreDAO;
 
+    private final IUserBookDAO userBookDAO;
+
     private static BookService instance=null;
 
     private BookService(){
         bookDAO = new BookDAO();
         authorDAO = new AuthorDAO();
         genreDAO= new GenreDAO();
+        userBookDAO = new UserBookDAO();
     }
 
     public static IBookService getInstance() {
@@ -91,6 +95,31 @@ public class BookService implements IBookService {
             booksListViewModel.setHasMore(true);
         }
         return booksListViewModel;
+    }
+
+    @Override
+    public UserBooksViewModel getUserBooks(String email) throws ServiceDBException {
+        try{
+            List<UserBook> userBooks = userBookDAO.getUserBooksByUserEmail(email);
+
+            if(!userBooks.isEmpty()){
+                UserBooksViewModel userBooksViewModel = new UserBooksViewModel();
+                userBooksViewModel.setUser(userBooks.get(0).getUser());
+                HashMap<Book,Integer> map = new HashMap<>(userBooks.size());
+                for (UserBook item:
+                     userBooks) {
+                    map.put(item.getBook(),item.getCount());
+                }
+                userBooksViewModel.setBooks(map);
+                return userBooksViewModel;
+            }
+            else {
+                return null;
+            }
+        }
+        catch (DAOException ex){
+            throw new ServiceDBException(ex);
+        }
     }
 
     public List<Book> getUsersBook(long userId) throws ServiceDBException {

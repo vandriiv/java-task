@@ -29,6 +29,7 @@ public class RequestHelper {
        commands.put("booksByTitle", new GetBooksByTitleCommand());
        commands.put("addBook",new AddBookCommand());
        commands.put("updateBook",new UpdateBookCommand());
+       commands.put("userBooks",new GetUserBooksCommand());
 
     }
 

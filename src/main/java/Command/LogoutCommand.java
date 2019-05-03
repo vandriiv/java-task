@@ -1,6 +1,6 @@
 package Command;
 
-import AuthenticationUtil.SessionManager;
+
 import Command.Interfaces.ICommand;
 
 import javax.servlet.ServletException;
@@ -13,6 +13,6 @@ public class LogoutCommand implements ICommand {
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        SessionManager.finishSession(request.getSession());
+
     }
 }

@@ -2,13 +2,11 @@ package Services;
 
 import DAO.Interfaces.IUserDAO;
 import DAO.UserDAO;
-import Entities.Role;
 import Entities.User;
 import Exceptions.DAOException;
 import Exceptions.ServiceDBException;
 import Exceptions.UserIsAlreadyExistException;
 import Exceptions.UserNotFoundException;
-
 import Services.Interfaces.IUserService;
 
 public class UserService implements IUserService {
@@ -43,11 +41,6 @@ public class UserService implements IUserService {
             throw new UserNotFoundException("Email "+ email+ " is not used!");
         }
 
-        /*PasswordAuthentication passwordAuthentication = new PasswordAuthentication();
-
-        if(!passwordAuthentication.authenticate(user.getPassword(),password)){
-            throw new UserNotFoundException("User not found!");
-        }*/
         if(!user.getPassword().equals(password)){
             throw new UserNotFoundException("User not found!");
         }
@@ -65,16 +58,11 @@ public class UserService implements IUserService {
                 throw new UserIsAlreadyExistException("Email " + email + " is already used!");
             }
 
-            //PasswordAuthentication passwordAuthentication = new PasswordAuthentication();
             User user = new User();
-            Role role = new Role();
-
-            role.setId(roleId);
             user.setEmail(email);
-            //user.setPassword(passwordAuthentication.hash(password));
             user.setPassword(password);
             user.setPhoneNumber(phoneNumber);
-            user.setRole(role);
+            user.setRoleId(roleId);
 
             userDAO.create(user);
         }

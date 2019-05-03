@@ -93,7 +93,7 @@ public class UserDAO implements IUserDAO {
             preparedStatement.setString(1,user.getEmail());
             preparedStatement.setString(2,user.getPassword());
             preparedStatement.setString(3,user.getPhoneNumber());
-            preparedStatement.setLong(4,user.getRole().getId());
+            preparedStatement.setLong(4,user.getRoleId());
 
 
             preparedStatement.execute();
@@ -127,7 +127,7 @@ public class UserDAO implements IUserDAO {
             preparedStatement.setString(1,user.getEmail());
             preparedStatement.setString(2,user.getPassword());
             preparedStatement.setString(3,user.getPhoneNumber());
-            preparedStatement.setLong(4,user.getRole().getId());
+            preparedStatement.setLong(4,user.getRoleId());
             preparedStatement.setLong(5,user.getId());
 
             preparedStatement.execute();
