@@ -29,8 +29,7 @@ public class UserService implements IUserService {
     public User Login(String email, String password) throws UserNotFoundException,
             ServiceDBException {
 
-
-        User user = null;
+        User user;
         try {
             user = userDAO.findByEmail(email);
         } catch (DAOException ex) {
@@ -38,11 +37,11 @@ public class UserService implements IUserService {
         }
 
         if(user==null){
-            throw new UserNotFoundException("Email "+ email+ " is not used!");
+            throw new UserNotFoundException("Email "+ email+ " is not used");
         }
 
         if(!user.getPassword().equals(password)){
-            throw new UserNotFoundException("User not found!");
+            throw new UserNotFoundException("User not found");
         }
 
         return user;
@@ -55,7 +54,7 @@ public class UserService implements IUserService {
             boolean isExist = userDAO.findByEmail(email) != null;
 
             if (isExist) {
-                throw new UserIsAlreadyExistException("Email " + email + " is already used!");
+                throw new UserIsAlreadyExistException("Email " + email + " is already used");
             }
 
             User user = new User();
@@ -73,7 +72,7 @@ public class UserService implements IUserService {
     }
 
     public User getByEmail(String email) throws ServiceDBException {
-        User user = null;
+        User user;
         try {
             user = userDAO.findByEmail(email);
         } catch (DAOException ex) {

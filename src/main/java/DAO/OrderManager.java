@@ -60,16 +60,59 @@ public class OrderManager implements IOrderManager {
                 try {
                     connection.rollback();
                 } catch (Exception ex) {
+                    throw new DAOException(ex.getMessage(), DAOExceptionOperation.COMPLEX_TRANSACTION);
                 }
             }
             e.printStackTrace();
-            throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
+            throw new DAOException(e.getMessage(), DAOExceptionOperation.COMPLEX_TRANSACTION);
 
         } finally {
             if (connection != null) {
                 try {
                     connection.close();
                 } catch (Exception e) {
+                    throw new DAOException(e.getMessage(), DAOExceptionOperation.COMPLEX_TRANSACTION);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void updateUserBookCount(long userId,long bookId,int newCount,int oldCount) throws DAOException {
+        Connection connection=null;
+        try {
+            connection = DBPool.getInstance().getConnection();
+            connection.setAutoCommit(false);
+
+            if(newCount==0){
+                userBookDAO.removeBookFromUsersBook(bookId,userId,connection);
+                bookDAO.increaseAvailableCount(bookId,oldCount,connection);
+            }
+            else{
+                userBookDAO.updateBookCount(bookId,userId,newCount,connection);
+                bookDAO.increaseAvailableCount(bookId,oldCount-newCount,connection);
+            }
+
+            connection.commit();
+        } catch (SQLException e) {
+
+            if (connection != null) {
+
+                try {
+                    connection.rollback();
+                } catch (Exception ex) {
+                    throw new DAOException(ex.getMessage(), DAOExceptionOperation.COMPLEX_TRANSACTION);
+                }
+            }
+            e.printStackTrace();
+            throw new DAOException(e.getMessage(), DAOExceptionOperation.COMPLEX_TRANSACTION);
+
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (Exception e) {
+                    throw new DAOException(e.getMessage(), DAOExceptionOperation.COMPLEX_TRANSACTION);
                 }
             }
         }

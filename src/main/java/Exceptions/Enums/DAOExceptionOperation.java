@@ -4,5 +4,6 @@ public enum DAOExceptionOperation {
     SELECT,
     INSERT,
     DELETE,
-    UPDATE
+    UPDATE,
+    COMPLEX_TRANSACTION
 }

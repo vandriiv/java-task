@@ -11,7 +11,6 @@ import TokenUtil.UserTokenModel;
 import ViewModels.LoginViewModel;
 import com.google.gson.Gson;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,7 +20,7 @@ public class LoginCommand implements ICommand {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
 
         IUserService userService = UserService.getInstance();
         Gson jsonFormatter = new Gson();
@@ -48,7 +47,7 @@ public class LoginCommand implements ICommand {
 
         } catch (ServiceDBException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.print(jsonFormatter.toJson("DB error." + ex.getMessage()));
+           out.print(jsonFormatter.toJson("Server error, try to reload page"));
         }
         out.flush();
     }

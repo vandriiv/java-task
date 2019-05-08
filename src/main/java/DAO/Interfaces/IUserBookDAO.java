@@ -11,11 +11,13 @@ public interface IUserBookDAO {
 
     void create(UserBook userBook, Connection connection) throws DAOException;
 
-    void updateBookCount(UserBook userBook, Connection connection) throws DAOException;
+    void updateBookCount(long userId,long bookId,int newCount,Connection connection) throws DAOException;
 
-    void removeBookFromUsersBook(UserBook userBook) throws DAOException;
+    void updateBookCount(UserBook userBook,Connection connection) throws DAOException;
 
-    UserBook getUserBook(long userId, long bookId, Connection connection) throws DAOException;
+    void removeBookFromUsersBook(long bookId,long userId,Connection connection) throws DAOException;
+
+    UserBook getUserBook(long bookId, long userId, Connection connection) throws DAOException;
 
     List<UserBook> getUserBooksByUserEmail(String email) throws DAOException;
 }

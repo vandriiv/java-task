@@ -9,15 +9,13 @@ import java.util.HashMap;
 public class RequestHelper {
     private static RequestHelper instance = null;
 
-    private HashMap<String, ICommand> commands = new HashMap<>(16);
+    private HashMap<String, ICommand> commands = new HashMap<>(17);
 
     private RequestHelper() {
-
-       commands.put("books",new GetAllBooksCommand());
        commands.put("booksByGenre", new GetBooksByGenreCommand());
        commands.put("authors",new GetAllAuthorsCommand());
        commands.put("booksByAuthor",new GetBooksByAuthorCommand());
-       commands.put("booksRange",new GetBooksRangeCommand());
+       commands.put("books",new GetBooksRangeCommand());
        commands.put("registration",new RegistrationCommand());
        commands.put("login",new LoginCommand());
        commands.put("logout",new LoginCommand());
@@ -30,6 +28,7 @@ public class RequestHelper {
        commands.put("addBook",new AddBookCommand());
        commands.put("updateBook",new UpdateBookCommand());
        commands.put("userBooks",new GetUserBooksCommand());
+       commands.put("updateUserBook",new UpdateUserBookCommand());
 
     }
 

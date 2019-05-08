@@ -7,7 +7,6 @@ import Services.BookService;
 import Services.Interfaces.IBookService;
 import com.google.gson.Gson;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,23 +16,24 @@ import java.util.List;
 public class GetAllAuthorsCommand implements ICommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
 
         IBookService bookService = BookService.getInstance();
         Gson jsonFormatter = new Gson();
         PrintWriter out = response.getWriter();
 
-        List<Author> authors = null;
+        List<Author> authors;
 
         try {
             authors = bookService.getAllAuthors();
             out.print(jsonFormatter.toJson(authors));
         } catch (ServiceDBException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.print(jsonFormatter.toJson("DB error." + ex.getMessage()));
+           out.print(jsonFormatter.toJson("Server error, try to reload page"));
         }
         catch (Exception ex){
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            out.print(jsonFormatter.toJson("Server error, try to reload page"));
         }
         out.flush();
 

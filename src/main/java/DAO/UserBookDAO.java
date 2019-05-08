@@ -21,7 +21,7 @@ public class UserBookDAO implements IUserBookDAO {
 
     private final String UPDATE_USERBOOK = "update userbook set count = ? where (user_id=? and book_id=?)";
 
-    private final String REMOVE_USERBOOK = "delete userbook where id =?";
+    private final String REMOVE_USERBOOK = "delete from userbook where (user_id=? and book_id=?)";
     
     private final String GET_USERBOOK = "select ub.id as user_book_id, ub.count as ubCount from userbook ub where (user_id=? and book_id=?)";
 
@@ -65,12 +65,31 @@ public class UserBookDAO implements IUserBookDAO {
 
     }
 
-    public void removeBookFromUsersBook(UserBook userBook) throws DAOException {
+    public void updateBookCount(long bookId,long userId,int newCount,Connection connection) throws DAOException {
 
-        try (Connection connection = DBPool.getInstance().getConnection();
+        try (
+                PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USERBOOK)){
+
+            preparedStatement.setInt(1,newCount);
+            preparedStatement.setLong(2,userId);
+            preparedStatement.setLong(3,bookId);
+
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DAOException(e.getMessage(), DAOExceptionOperation.UPDATE);
+        }
+
+    }
+
+    public void removeBookFromUsersBook(long bookId,long userId,Connection connection) throws DAOException {
+
+        try (
              PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_USERBOOK)){
 
-            preparedStatement.setLong(1,userBook.getId());
+            preparedStatement.setLong(1,userId);
+            preparedStatement.setLong(2,bookId);
 
             preparedStatement.execute();
 
@@ -114,7 +133,7 @@ public class UserBookDAO implements IUserBookDAO {
             preparedStatement.setString(1,email);
 
             ResultSet rs = preparedStatement.executeQuery();
-            UserBook userBook=null;
+            UserBook userBook;
 
             while (rs.next()) {
                 userBook = userBookBuilder.BuildUserBookFromResultSet(rs);

@@ -16,6 +16,8 @@ public class BookDAO implements IBookDAO {
 
     private final String REDUCE_AVAILABLE_COUNT = "update book set available_count = (select available_count where id=?)-? where id=?";
 
+    private final String INCREASE_AVAILABLE_COUNT = "update book set available_count = (select available_count where id=?)+? where id=?";
+
     private final String SELECT_BOOK_BY_ID="select b.id,title,year,author_id,total_count,available_count,genre_id, " +
             "a.id as authorId,first_name, last_name, g.id as genreId, g.name as genreName " +
             "from book b inner join author a on b.author_id=a.id inner join genre g " +
@@ -91,7 +93,7 @@ public class BookDAO implements IBookDAO {
 
     public List<Book> findByAuthorId(long auhtorId,int limit, int offset) throws DAOException {
 
-        List<Book> books = new ArrayList<Book>();
+        List<Book> books = new ArrayList<>();
         ResultSetBookBuilder bookBuilder = new ResultSetBookBuilder();
 
         try (Connection connection = DBPool.getInstance().getConnection();
@@ -103,7 +105,7 @@ public class BookDAO implements IBookDAO {
 
             ResultSet rs = preparedStatement.executeQuery();
 
-            Book book = null;
+            Book book;
 
             while (rs.next()) {
                 book = bookBuilder.BuildBookFromResultSet(rs);
@@ -122,7 +124,7 @@ public class BookDAO implements IBookDAO {
 
     public List<Book> findByGenreId(long genreId) throws DAOException {
 
-        List<Book> books = new ArrayList<Book>();
+        List<Book> books = new ArrayList<>();
         ResultSetBookBuilder bookBuilder = new ResultSetBookBuilder();
 
         try (Connection connection = DBPool.getInstance().getConnection();
@@ -151,7 +153,7 @@ public class BookDAO implements IBookDAO {
 
     public List<Book> findUsersBook(long userId) throws DAOException {
 
-        List<Book> books = new ArrayList<Book>();
+        List<Book> books = new ArrayList<>();
         ResultSetBookBuilder bookBuilder = new ResultSetBookBuilder();
 
         try (Connection connection = DBPool.getInstance().getConnection();
@@ -161,7 +163,7 @@ public class BookDAO implements IBookDAO {
 
             ResultSet rs = preparedStatement.executeQuery();
 
-            Book book = null;
+            Book book;
 
             while (rs.next()) {
                 book = bookBuilder.BuildBookFromResultSet(rs);
@@ -181,7 +183,7 @@ public class BookDAO implements IBookDAO {
 
     public List<Book> findBookByTitle(String title,int limit, int offset) throws DAOException {
 
-        List<Book> books = new ArrayList<Book>();
+        List<Book> books = new ArrayList<>();
         ResultSetBookBuilder bookBuilder = new ResultSetBookBuilder();
 
         try (Connection connection = DBPool.getInstance().getConnection();
@@ -193,7 +195,7 @@ public class BookDAO implements IBookDAO {
 
             ResultSet rs = preparedStatement.executeQuery();
 
-            Book book = null;
+            Book book;
 
             while (rs.next()) {
                 book = bookBuilder.BuildBookFromResultSet(rs);
@@ -268,6 +270,21 @@ public class BookDAO implements IBookDAO {
 
     }
 
+    public void increaseAvailableCount(long bookId,int count, Connection connection){
+
+        try (PreparedStatement preparedStatement
+                     = connection.prepareStatement(INCREASE_AVAILABLE_COUNT)){
+            preparedStatement.setLong(1,bookId);
+            preparedStatement.setInt(2,count);
+            preparedStatement.setLong(3,bookId);
+            preparedStatement.execute();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
     public Book findById(long id, Connection connection) throws DAOException {
 
         Book book = null;
@@ -295,7 +312,7 @@ public class BookDAO implements IBookDAO {
 
     public List<Book> getAll() throws DAOException {
 
-        List<Book> books = new ArrayList<Book>();
+        List<Book> books = new ArrayList<>();
         ResultSetBookBuilder bookBuilder = new ResultSetBookBuilder();
 
         try (Connection connection = DBPool.getInstance().getConnection();
@@ -303,7 +320,7 @@ public class BookDAO implements IBookDAO {
 
             ResultSet rs = preparedStatement.executeQuery();
 
-            Book book = null;
+            Book book;
 
             while (rs.next()) {
                 book = bookBuilder.BuildBookFromResultSet(rs);
@@ -334,7 +351,7 @@ public class BookDAO implements IBookDAO {
 
             ResultSet rs = preparedStatement.executeQuery();
 
-            Book book = null;
+            Book book;
 
             while (rs.next()) {
                 book = bookBuilder.BuildBookFromResultSet(rs);
@@ -352,7 +369,7 @@ public class BookDAO implements IBookDAO {
     }
 
     public List<Book> getRange(int limit, int offset) throws DAOException {
-        List<Book> books = new ArrayList<Book>();
+        List<Book> books = new ArrayList<>();
         ResultSetBookBuilder bookBuilder = new ResultSetBookBuilder();
 
         try (Connection connection = DBPool.getInstance().getConnection();
@@ -360,15 +377,16 @@ public class BookDAO implements IBookDAO {
 
             preparedStatement.setInt(1,limit);
             preparedStatement.setInt(2,offset);
-            ResultSet rs = preparedStatement.executeQuery();
+            try (ResultSet rs = preparedStatement.executeQuery()) {
 
-            Book book = null;
+                Book book = null;
 
-            while (rs.next()) {
-                book = bookBuilder.BuildBookFromResultSet(rs);
-                books.add(book);
+                while (rs.next()) {
+                    book = bookBuilder.BuildBookFromResultSet(rs);
+                    books.add(book);
+                }
+                rs.close();
             }
-            rs.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

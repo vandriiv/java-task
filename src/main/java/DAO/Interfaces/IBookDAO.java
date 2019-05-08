@@ -35,4 +35,6 @@ public interface IBookDAO {
 
     HashMap<Long, Integer> getAvailableCount(List<Long> items) throws DAOException;
 
+    void increaseAvailableCount(long bookId,int count, Connection connection);
+
 }

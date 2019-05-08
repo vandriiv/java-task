@@ -11,6 +11,9 @@ public class UserBooksViewModel {
 
     private HashMap<Book,Integer> books = new HashMap<>();
 
+    public UserBooksViewModel() {
+    }
+
     public User getUser() {
         return user;
     }

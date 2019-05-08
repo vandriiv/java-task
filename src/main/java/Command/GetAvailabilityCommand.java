@@ -7,7 +7,6 @@ import Services.Interfaces.IBookService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,7 +17,7 @@ import java.util.List;
 public class GetAvailabilityCommand implements ICommand {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         IBookService bookService = BookService.getInstance();
         Gson jsonFormatter = new Gson();
@@ -36,7 +35,7 @@ public class GetAvailabilityCommand implements ICommand {
 
         } catch (ServiceDBException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.print(jsonFormatter.toJson("DB error." + ex.getMessage()));
+           out.print(jsonFormatter.toJson("Server error, try to reload page"));
         }
 
         out.flush();

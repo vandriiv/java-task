@@ -7,7 +7,6 @@ import Services.Interfaces.IBookService;
 import ViewModels.BooksListViewModel;
 import com.google.gson.Gson;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.io.PrintWriter;
 public class GetBooksByTitleCommand implements ICommand {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         IBookService bookService = BookService.getInstance();
         PrintWriter out = response.getWriter();
@@ -27,25 +26,33 @@ public class GetBooksByTitleCommand implements ICommand {
             int limit = Integer.parseInt(request.getParameter("limit"));
             int offset = Integer.parseInt(request.getParameter("offset"));
 
-            BooksListViewModel books = bookService.getBooksByTitle(title,limit,offset);
-
-            if (books.getBooks().isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                out.print(jsonFormatter.toJson("Set is empty"));
-            } else {
-                out.print(jsonFormatter.toJson(books));
+            if(limit<0||offset<0){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                out.print(jsonFormatter.toJson("Invalid data format"));
             }
+            else {
 
+                BooksListViewModel books = bookService.getBooksByTitle(title, limit, offset);
+
+                if (books.getBooks().isEmpty()) {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    out.print(jsonFormatter.toJson("Set is empty"));
+                } else {
+                    out.print(jsonFormatter.toJson(books));
+                }
+            }
         }
         catch (NumberFormatException ex){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             out.print(jsonFormatter.toJson("Invalid data format"));
-        } catch (ServiceDBException ex) {
+        }
+        catch (ServiceDBException ex) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            out.print(jsonFormatter.toJson("DB error." + ex.getMessage()));
+           out.print(jsonFormatter.toJson("Server error, try to reload page"));
         }
         catch (Exception ex){
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            out.print(jsonFormatter.toJson("Server error, try to reload page"));
         }
         out.flush();
     }

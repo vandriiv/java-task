@@ -41,5 +41,15 @@ public class OrderService implements IOrderService {
         }
     }
 
+    @Override
+    public void updateUserBookCount(long userId,long bookId,int newCount, int oldCount) throws ServiceDBException {
+        try {
+            orderManager.updateUserBookCount(userId,bookId,newCount,oldCount);
+        }
+        catch (DAOException ex){
+            throw new ServiceDBException(ex);
+        }
+    }
+
 
 }
