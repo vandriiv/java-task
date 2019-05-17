@@ -1,21 +1,21 @@
-package ViewModels;
+package DTO;
 
 import Entities.Book;
 
 import java.util.List;
 
-public class BooksListViewModel {
+public class BooksListDTO {
 
     private List<Book> books;
 
     private boolean hasMore;
 
-    public BooksListViewModel(List<Book> books, boolean hasMore) {
+    public BooksListDTO(List<Book> books, boolean hasMore) {
         this.books = books;
         this.hasMore = hasMore;
     }
 
-    public BooksListViewModel() {
+    public BooksListDTO() {
 
     }
 

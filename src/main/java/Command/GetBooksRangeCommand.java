@@ -1,16 +1,19 @@
 package Command;
 
 import Command.Interfaces.ICommand;
+import DTO.BooksListDTO;
+import Entities.Book;
 import Exceptions.ServiceDBException;
+import Mapping.BooksListMapper;
 import Services.BookService;
 import Services.Interfaces.IBookService;
-import ViewModels.BooksListViewModel;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class GetBooksRangeCommand implements ICommand {
 
@@ -30,9 +33,16 @@ public class GetBooksRangeCommand implements ICommand {
                 out.print(jsonFormatter.toJson("Invalid data format"));
             }
             else {
-                BooksListViewModel books = bookService.getBooksRange(limit, offset);
-
-                out.print(jsonFormatter.toJson(books));
+                List<Book> books = bookService.getBooksRange(limit+1,offset);
+                if (books.isEmpty()) {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    out.print(jsonFormatter.toJson("There are not books"));
+                }
+                else {
+                    BooksListMapper mapper = new BooksListMapper();
+                    BooksListDTO booksListDTO = mapper.MapToBooksListDTO(books,limit);
+                    out.print(jsonFormatter.toJson(booksListDTO));
+                }
             }
         }
         catch (NumberFormatException ex){

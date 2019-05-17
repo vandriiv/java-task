@@ -4,9 +4,6 @@ import Entities.Author;
 import Entities.Book;
 import Entities.Genre;
 import Exceptions.ServiceDBException;
-import ViewModels.BooksListViewModel;
-import ViewModels.UserBooksViewModel;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,11 +11,9 @@ public interface IBookService {
 
     List<Book> getAllBooks() throws ServiceDBException;
 
-    BooksListViewModel getBooksByAuthorId(long authorId, int limit, int offset) throws ServiceDBException;
+    List<Book> getBooksByAuthorId(long authorId, int limit, int offset) throws ServiceDBException;
 
-    BooksListViewModel getBooksByGenreName(String genreName,int limit,int offset) throws ServiceDBException;
-
-    UserBooksViewModel getUserBooks(String email) throws ServiceDBException;
+    List<Book> getBooksByGenreName(String genreName,int limit,int offset) throws ServiceDBException;
 
     Book getBookById(long bookId) throws ServiceDBException;
 
@@ -28,9 +23,9 @@ public interface IBookService {
 
     List<Author> getAuthorsByNamePart(String name) throws ServiceDBException;
 
-    BooksListViewModel getBooksByTitle(String title, int limit,int offset) throws ServiceDBException;
+    List<Book> getBooksByTitle(String title, int limit,int offset) throws ServiceDBException;
 
-    BooksListViewModel getBooksRange(int limit,int offset) throws ServiceDBException;
+    List<Book> getBooksRange(int limit,int offset) throws ServiceDBException;
 
     HashMap<Long,Integer> getAvailableCount(List<Long> items) throws ServiceDBException;
 

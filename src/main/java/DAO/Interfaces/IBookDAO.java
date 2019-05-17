@@ -13,7 +13,7 @@ public interface IBookDAO {
 
     List<Book> findByAuthorId(long authorId,int limit, int offset) throws DAOException;
 
-    List<Book> findUsersBook(long userId) throws DAOException;
+    List<Book> findUserBooks(long userId) throws DAOException;
 
     List<Book> findBookByTitle(String title,int limit, int offset)  throws DAOException;
 

@@ -1,6 +1,6 @@
 package Validation;
 
-import ViewModels.RegistrationViewModel;
+import DTO.RegistrationDTO;
 
 public class RegistrationValidator {
 
@@ -16,7 +16,7 @@ public class RegistrationValidator {
         validationErrors = "";
     }
 
-    public boolean isValid(RegistrationViewModel user){
+    public boolean isValid(RegistrationDTO user){
 
         validationErrors = "";
 

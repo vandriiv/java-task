@@ -2,7 +2,7 @@ package Command;
 
 import AuthenticationUtil.JWTBasedAuthenticationManager;
 import Command.Interfaces.ICommand;
-import TokenUtil.UserTokenModel;
+import TokenUtil.UserTokenClaimsData;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ public class GetUserStatusCommand implements ICommand {
 
         JWTBasedAuthenticationManager authenticationManager = new JWTBasedAuthenticationManager();
 
-        UserTokenModel userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
+        UserTokenClaimsData userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
         if(userTokenModel==null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }

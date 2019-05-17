@@ -7,7 +7,7 @@ import Exceptions.ServiceDBException;
 import GlobalConstants.GlobalConstants;
 import Services.BookService;
 import Services.Interfaces.IBookService;
-import TokenUtil.UserTokenModel;
+import TokenUtil.UserTokenClaimsData;
 import Validation.AuthorValidator;
 import com.google.gson.Gson;
 
@@ -23,7 +23,7 @@ public class UpdateAuthorCommand implements ICommand {
 
         JWTBasedAuthenticationManager authenticationManager = new JWTBasedAuthenticationManager();
         String header = request.getHeader("Authorization");
-        UserTokenModel userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
+        UserTokenClaimsData userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
 
         Gson jsonFormatter = new Gson();
         PrintWriter out = response.getWriter();

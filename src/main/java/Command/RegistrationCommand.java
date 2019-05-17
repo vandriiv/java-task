@@ -6,7 +6,7 @@ import Exceptions.UserIsAlreadyExistException;
 import Services.Interfaces.IUserService;
 import Services.UserService;
 import Validation.RegistrationValidator;
-import ViewModels.RegistrationViewModel;
+import DTO.RegistrationDTO;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ public class RegistrationCommand implements ICommand {
         String body = request.getReader().lines()
                 .reduce("", (accumulator, actual) -> accumulator + actual);
 
-        RegistrationViewModel user = jsonFormatter.fromJson(body,RegistrationViewModel.class);
+        RegistrationDTO user = jsonFormatter.fromJson(body,RegistrationDTO.class);
 
         RegistrationValidator registrationValidator = new RegistrationValidator();
         PrintWriter out = response.getWriter();

@@ -1,14 +1,14 @@
 package AuthenticationUtil;
 
 import TokenUtil.JWTProvider;
-import TokenUtil.UserTokenModel;
+import TokenUtil.UserTokenClaimsData;
 import com.google.gson.Gson;
 
 public class JWTBasedAuthenticationManager {
 
-    public UserTokenModel getUsetDataFromAuthHeader(String header){
+    public UserTokenClaimsData getUsetDataFromAuthHeader(String header){
 
-        UserTokenModel tokenModel = null;
+        UserTokenClaimsData tokenModel = null;
 
         if(header!=null) {
             if (header.contains("Bearer ")) {
@@ -16,7 +16,7 @@ public class JWTBasedAuthenticationManager {
                 String token = header.substring("Bearer ".length());
                 try {
                     String subject = JWTProvider.getSubjectFromToken(token);
-                    tokenModel = jsonFormatter.fromJson(subject, UserTokenModel.class);
+                    tokenModel = jsonFormatter.fromJson(subject, UserTokenClaimsData.class);
                 } catch (Exception ex) {
 
                 }

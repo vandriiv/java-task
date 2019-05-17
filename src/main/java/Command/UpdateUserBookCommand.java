@@ -6,8 +6,8 @@ import Exceptions.ServiceDBException;
 import GlobalConstants.GlobalConstants;
 import Services.Interfaces.IOrderService;
 import Services.OrderService;
-import TokenUtil.UserTokenModel;
-import ViewModels.UpdateUserBookViewModel;
+import TokenUtil.UserTokenClaimsData;
+import DTO.UpdateUserBookDTO;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class UpdateUserBookCommand implements ICommand {
 
         JWTBasedAuthenticationManager authenticationManager = new JWTBasedAuthenticationManager();
         String header = request.getHeader("Authorization");
-        UserTokenModel userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
+        UserTokenClaimsData userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
         Gson jsonFormatter = new Gson();
         PrintWriter out = response.getWriter();
 
@@ -33,18 +33,18 @@ public class UpdateUserBookCommand implements ICommand {
 
                     String body = request.getReader().lines()
                             .reduce("", (accumulator, actual) -> accumulator + actual);
-                    UpdateUserBookViewModel userBookViewModel = jsonFormatter.fromJson(body, UpdateUserBookViewModel.class);
+                    UpdateUserBookDTO userBookDTO = jsonFormatter.fromJson(body, UpdateUserBookDTO.class);
 
-                    if (userBookViewModel.getOldCount() <= userBookViewModel.getNewCount()) {
+                    if (userBookDTO.getOldCount() <= userBookDTO.getNewCount()) {
                         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                         out.print(jsonFormatter.toJson("Invalid data format"));
                     }
                     else {
                         try {
                             IOrderService orderService = OrderService.getInstance();
-                            orderService.updateUserBookCount(userBookViewModel.getUserId()
-                                    , userBookViewModel.getBookId(), userBookViewModel.getNewCount(),
-                                    userBookViewModel.getOldCount());
+                            orderService.updateUserBookCount(userBookDTO.getUserId()
+                                    , userBookDTO.getBookId(), userBookDTO.getNewCount(),
+                                    userBookDTO.getOldCount());
                             out.print(jsonFormatter.toJson("Successfully updated"));
                         } catch (ServiceDBException ex) {
                             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

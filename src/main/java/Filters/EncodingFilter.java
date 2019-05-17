@@ -18,22 +18,19 @@ public class EncodingFilter implements Filter {
         if(response instanceof HttpServletResponse){
             HttpServletResponse alteredResponse = (HttpServletResponse)response;
             HttpServletRequest alteredRequest = (HttpServletRequest)request;
-            String authHeader =alteredRequest.getHeader("Authorization");
-            addCorsHeader(alteredResponse,authHeader);
         }
 
         filterChain.doFilter(request, response);
     }
 
-    private void addCorsHeader(HttpServletResponse response, String authHeader){
+    private void addCorsHeader(HttpServletResponse response){
 
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
         response.addHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
         response.addHeader("Access-Control-Max-Age", "1728000");
         response.addHeader("Access-Control-Expose-Headers","Origin, X-Requested-With, Content-Type, Accept, Authorization");
-        if(authHeader!=null && !authHeader.isEmpty())
-            response.setHeader("Authorization", authHeader);
+
     }
 
     @Override

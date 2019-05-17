@@ -151,7 +151,7 @@ public class BookDAO implements IBookDAO {
         return books;
     }
 
-    public List<Book> findUsersBook(long userId) throws DAOException {
+    public List<Book> findUserBooks(long userId) throws DAOException {
 
         List<Book> books = new ArrayList<>();
         ResultSetBookBuilder bookBuilder = new ResultSetBookBuilder();

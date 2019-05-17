@@ -1,16 +1,19 @@
 package Command;
 
 import Command.Interfaces.ICommand;
+import Entities.Book;
 import Exceptions.ServiceDBException;
+import Mapping.BooksListMapper;
 import Services.BookService;
 import Services.Interfaces.IBookService;
-import ViewModels.BooksListViewModel;
+import DTO.BooksListDTO;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class GetBooksByAuthorCommand implements ICommand {
     @Override
@@ -31,14 +34,15 @@ public class GetBooksByAuthorCommand implements ICommand {
                 out.print(jsonFormatter.toJson("Invalid data format"));
             }
             else {
-
-                BooksListViewModel books = bookService.getBooksByAuthorId(authorId, limit, offset);
-
-                if (books.getBooks().isEmpty()) {
+                List<Book> books = bookService.getBooksByAuthorId(authorId,limit+1,offset);
+                if (books.isEmpty()) {
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                     out.print(jsonFormatter.toJson("There are not books by this author"));
-                } else {
-                    out.print(jsonFormatter.toJson(books));
+                }
+                else {
+                    BooksListMapper mapper = new BooksListMapper();
+                    BooksListDTO booksListDTO = mapper.MapToBooksListDTO(books,limit);
+                    out.print(jsonFormatter.toJson(booksListDTO));
                 }
             }
 

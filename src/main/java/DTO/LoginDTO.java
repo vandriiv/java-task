@@ -1,16 +1,16 @@
-package ViewModels;
+package DTO;
 
-public class LoginViewModel {
+public class LoginDTO {
     private String email;
 
     private String password;
 
-    public LoginViewModel(String email, String password) {
+    public LoginDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public LoginViewModel() {
+    public LoginDTO() {
     }
 
     public String getEmail() {

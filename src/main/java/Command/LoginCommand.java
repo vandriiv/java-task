@@ -7,8 +7,9 @@ import Exceptions.UserNotFoundException;
 import Services.Interfaces.IUserService;
 import Services.UserService;
 import TokenUtil.JWTProvider;
-import TokenUtil.UserTokenModel;
-import ViewModels.LoginViewModel;
+import TokenUtil.LoginResponseData;
+import TokenUtil.UserTokenClaimsData;
+import DTO.LoginDTO;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +29,7 @@ public class LoginCommand implements ICommand {
         String body = request.getReader().lines()
                 .reduce("", (accumulator, actual) -> accumulator + actual);
 
-        LoginViewModel loginUser = jsonFormatter.fromJson(body,LoginViewModel.class);
+        LoginDTO loginUser = jsonFormatter.fromJson(body,LoginDTO.class);
 
         String email = loginUser.getEmail();
         String password = loginUser.getPassword();
@@ -36,10 +37,16 @@ public class LoginCommand implements ICommand {
 
         try {
             User user =  userService.Login(email,password);
-            UserTokenModel tokenModel = new UserTokenModel(user.getRoleId(),user.getEmail());
+            UserTokenClaimsData tokenModel = new UserTokenClaimsData(user.getRoleId(),user.getEmail());
             String tokenData = jsonFormatter.toJson(tokenModel);
             String token = JWTProvider.generateToken(tokenData);
-            response.setHeader("Authorization", token);
+            LoginResponseData responseData = new LoginResponseData();
+            UserTokenClaimsData userInfo = new UserTokenClaimsData();
+            userInfo.setEmail(user.getEmail());
+            userInfo.setRoleId(user.getRoleId());
+            responseData.setAccess_token(token);
+            responseData.setUserInfo(userInfo);
+            out.print(jsonFormatter.toJson(responseData));
 
         } catch (UserNotFoundException e) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);

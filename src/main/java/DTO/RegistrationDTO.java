@@ -1,6 +1,6 @@
-package ViewModels;
+package DTO;
 
-public class RegistrationViewModel {
+public class RegistrationDTO {
     private String email;
 
     private String password;
@@ -9,14 +9,14 @@ public class RegistrationViewModel {
 
     private String phoneNumber;
 
-    public RegistrationViewModel(String email, String password, String confirmPassword, String phoneNumber) {
+    public RegistrationDTO(String email, String password, String confirmPassword, String phoneNumber) {
         this.email = email;
         this.password = password;
         this.confirmPassword = confirmPassword;
         this.phoneNumber = phoneNumber;
     }
 
-    public RegistrationViewModel() {
+    public RegistrationDTO() {
 
     }
 

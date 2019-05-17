@@ -1,35 +1,35 @@
-package ViewModels;
+package DTO;
 
-public class UpdateUserBookViewModel {
+public class UpdateUserBookDTO {
 
-    private int userId;
+    private long userId;
 
-    private int bookId;
+    private long bookId;
 
     private int newCount;
 
     private int oldCount;
 
-    public UpdateUserBookViewModel(int userId, int bookId, int newCount, int oldCount) {
+    public UpdateUserBookDTO(long userId, long bookId, int newCount, int oldCount) {
         this.userId = userId;
         this.bookId = bookId;
         this.newCount = newCount;
         this.oldCount = oldCount;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    public int getBookId() {
+    public long getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(long bookId) {
         this.bookId = bookId;
     }
 

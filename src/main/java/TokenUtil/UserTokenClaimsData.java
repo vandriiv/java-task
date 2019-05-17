@@ -1,16 +1,16 @@
 package TokenUtil;
 
-public class UserTokenModel {
+public class UserTokenClaimsData {
     private long roleId;
 
     private String email;
 
-    public UserTokenModel(long roleId, String email) {
+    public UserTokenClaimsData(long roleId, String email) {
         this.roleId = roleId;
         this.email = email;
     }
 
-    public UserTokenModel() {
+    public UserTokenClaimsData() {
 
     }
 

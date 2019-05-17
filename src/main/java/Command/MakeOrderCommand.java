@@ -11,8 +11,8 @@ import Services.Interfaces.IOrderService;
 import Services.Interfaces.IUserService;
 import Services.OrderService;
 import Services.UserService;
-import TokenUtil.UserTokenModel;
-import ViewModels.OrderedBookViewModel;
+import TokenUtil.UserTokenClaimsData;
+import DTO.OrderedBookDTO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,7 +34,7 @@ public class MakeOrderCommand implements ICommand {
 
         JWTBasedAuthenticationManager authenticationManager = new JWTBasedAuthenticationManager();
 
-        UserTokenModel userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
+        UserTokenClaimsData userTokenModel = authenticationManager.getUsetDataFromAuthHeader(header);
 
         PrintWriter out = response.getWriter();
         if(userTokenModel!=null) {
@@ -55,8 +55,8 @@ public class MakeOrderCommand implements ICommand {
                     String body = request.getReader().lines()
                             .reduce("", (accumulator, actual) -> accumulator + actual);
 
-                    List<OrderedBookViewModel> orderedBooks = new Gson()
-                            .fromJson(body, new TypeToken<List<OrderedBookViewModel>>() {
+                    List<OrderedBookDTO> orderedBooks = new Gson()
+                            .fromJson(body, new TypeToken<List<OrderedBookDTO>>() {
                             }.getType());
                     OrderedBookMapper mapper = new OrderedBookMapper();
                     List<UserBook> userBooks = mapper.MapToUserBookList(orderedBooks, user.getId());
