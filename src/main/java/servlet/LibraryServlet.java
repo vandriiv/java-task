@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(value = "/api/*")
-public class Servlet extends HttpServlet {
+public class LibraryServlet extends HttpServlet {
 
 
     RequestHelper requestHelper = RequestHelper.getInstance();

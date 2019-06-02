@@ -44,7 +44,7 @@ public class RequestHelper {
     }
 
 
-    public static RequestHelper getInstance() {
+    synchronized public static RequestHelper getInstance() {
         if (instance == null) {
             instance = new RequestHelper();
         }

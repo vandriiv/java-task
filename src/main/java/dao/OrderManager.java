@@ -63,7 +63,7 @@ public class OrderManager implements IOrderManager {
                     throw new DAOException(ex.getMessage(), DAOExceptionOperation.COMPLEX_TRANSACTION);
                 }
             }
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.COMPLEX_TRANSACTION);
 
         } finally {
@@ -104,7 +104,7 @@ public class OrderManager implements IOrderManager {
                     throw new DAOException(ex.getMessage(), DAOExceptionOperation.COMPLEX_TRANSACTION);
                 }
             }
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.COMPLEX_TRANSACTION);
 
         } finally {

@@ -1,7 +1,7 @@
 package authentication.util;
 
-import toket.util.JWTProvider;
-import toket.util.UserTokenClaimsData;
+import token.util.JWTProvider;
+import token.util.UserTokenClaimsData;
 import com.google.gson.Gson;
 
 public class JWTBasedAuthenticationManager {

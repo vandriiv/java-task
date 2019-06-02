@@ -1,4 +1,4 @@
-package toket.util;
+package token.util;
 
 public class UserTokenClaimsData {
     private long roleId;

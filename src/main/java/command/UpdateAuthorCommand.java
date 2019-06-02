@@ -7,7 +7,7 @@ import exceptions.ServiceDBException;
 import globalconstants.GlobalConstants;
 import services.BookService;
 import services.interfaces.IBookService;
-import toket.util.UserTokenClaimsData;
+import token.util.UserTokenClaimsData;
 import validation.AuthorValidator;
 import com.google.gson.Gson;
 

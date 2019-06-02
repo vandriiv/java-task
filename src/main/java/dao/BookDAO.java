@@ -84,7 +84,7 @@ public class BookDAO implements IBookDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -115,7 +115,7 @@ public class BookDAO implements IBookDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -144,7 +144,7 @@ public class BookDAO implements IBookDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -173,7 +173,7 @@ public class BookDAO implements IBookDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -205,7 +205,7 @@ public class BookDAO implements IBookDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -227,7 +227,7 @@ public class BookDAO implements IBookDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.INSERT);
         }
     }
@@ -248,7 +248,7 @@ public class BookDAO implements IBookDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.UPDATE);
         }
 
@@ -265,7 +265,7 @@ public class BookDAO implements IBookDAO {
             preparedStatement.execute();
         }
         catch (SQLException e){
-            e.printStackTrace();
+
         }
 
     }
@@ -280,7 +280,7 @@ public class BookDAO implements IBookDAO {
             preparedStatement.execute();
         }
         catch (SQLException e){
-            e.printStackTrace();
+
         }
 
     }
@@ -303,7 +303,7 @@ public class BookDAO implements IBookDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -330,7 +330,7 @@ public class BookDAO implements IBookDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -361,7 +361,7 @@ public class BookDAO implements IBookDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -389,7 +389,7 @@ public class BookDAO implements IBookDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -427,7 +427,7 @@ public class BookDAO implements IBookDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 

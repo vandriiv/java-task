@@ -1,4 +1,4 @@
-package toket.util;
+package token.util;
 
 public class LoginResponseData {
     private String access_token;

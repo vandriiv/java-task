@@ -18,6 +18,7 @@ public class EncodingFilter implements Filter {
         if(response instanceof HttpServletResponse){
             HttpServletResponse alteredResponse = (HttpServletResponse)response;
             HttpServletRequest alteredRequest = (HttpServletRequest)request;
+            addCorsHeader(alteredResponse);
         }
 
         filterChain.doFilter(request, response);

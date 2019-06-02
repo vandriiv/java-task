@@ -44,7 +44,7 @@ public class GenreDAO implements IGenreDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -69,7 +69,7 @@ public class GenreDAO implements IGenreDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -87,7 +87,7 @@ public class GenreDAO implements IGenreDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.UPDATE);
         }
     }
@@ -102,7 +102,7 @@ public class GenreDAO implements IGenreDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.INSERT);
         }
     }

@@ -57,7 +57,7 @@ public class AuthorDAO implements IAuthorDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -85,7 +85,7 @@ public class AuthorDAO implements IAuthorDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -116,7 +116,7 @@ public class AuthorDAO implements IAuthorDAO {
             
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -143,7 +143,7 @@ public class AuthorDAO implements IAuthorDAO {
 
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -160,7 +160,7 @@ public class AuthorDAO implements IAuthorDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.INSERT);
         }
     }
@@ -177,7 +177,7 @@ public class AuthorDAO implements IAuthorDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.UPDATE);
         }
     }
@@ -203,7 +203,7 @@ public class AuthorDAO implements IAuthorDAO {
             
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 

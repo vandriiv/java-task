@@ -32,7 +32,7 @@ public class BookService implements IBookService {
         genreDAO= new GenreDAO();
     }
 
-    public static IBookService getInstance() {
+    synchronized public static IBookService getInstance() {
         if (instance == null) {
             instance = new BookService();
         }

@@ -23,7 +23,7 @@ public class OrderService implements IOrderService {
        userBookDAO = new UserBookDAO();
     }
 
-    public static IOrderService getInstance() {
+    synchronized public static IOrderService getInstance() {
         if (instance == null) {
             instance = new OrderService();
         }

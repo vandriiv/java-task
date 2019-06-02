@@ -1,4 +1,4 @@
-package toket.util;
+package token.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

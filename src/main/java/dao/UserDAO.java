@@ -51,7 +51,7 @@ public class UserDAO implements IUserDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -78,7 +78,7 @@ public class UserDAO implements IUserDAO {
             rs.close();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -99,7 +99,7 @@ public class UserDAO implements IUserDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.INSERT);
         }
     }
@@ -114,7 +114,7 @@ public class UserDAO implements IUserDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.DELETE);
         }
     }
@@ -133,7 +133,7 @@ public class UserDAO implements IUserDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.UPDATE);
         }
     }

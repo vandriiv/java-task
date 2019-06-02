@@ -41,7 +41,7 @@ public class UserBookDAO implements IUserBookDAO {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.INSERT);
         }
 
@@ -59,7 +59,7 @@ public class UserBookDAO implements IUserBookDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.UPDATE);
         }
 
@@ -77,7 +77,7 @@ public class UserBookDAO implements IUserBookDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.UPDATE);
         }
 
@@ -94,7 +94,7 @@ public class UserBookDAO implements IUserBookDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.DELETE);
         }
     }
@@ -115,7 +115,7 @@ public class UserBookDAO implements IUserBookDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 
@@ -141,7 +141,7 @@ public class UserBookDAO implements IUserBookDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+
             throw new DAOException(e.getMessage(), DAOExceptionOperation.SELECT);
         }
 

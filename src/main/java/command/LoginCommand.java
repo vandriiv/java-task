@@ -6,9 +6,9 @@ import exceptions.ServiceDBException;
 import exceptions.UserNotFoundException;
 import services.interfaces.IUserService;
 import services.UserService;
-import toket.util.JWTProvider;
-import toket.util.LoginResponseData;
-import toket.util.UserTokenClaimsData;
+import token.util.JWTProvider;
+import token.util.LoginResponseData;
+import token.util.UserTokenClaimsData;
 import dto.LoginDTO;
 import com.google.gson.Gson;
 

@@ -19,7 +19,7 @@ public class UserService implements IUserService {
        userDAO = new UserDAO();
     }
 
-    public static IUserService getInstance() {
+    synchronized public static IUserService getInstance() {
         if (instance == null) {
             instance = new UserService();
         }

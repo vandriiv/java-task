@@ -2,7 +2,7 @@ package command;
 
 import authentication.util.JWTBasedAuthenticationManager;
 import command.interfaces.ICommand;
-import toket.util.UserTokenClaimsData;
+import token.util.UserTokenClaimsData;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
